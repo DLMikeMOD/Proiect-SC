@@ -21,17 +21,20 @@ class Level:
 
     # birthplace of the map
     def create_map(self):
-        edges = {
-            'bounds': import_csv_layout('../assets/map_objects/map_FloorAssets.csv')
-        }
-        for style, layout in edges.items():
-            for row_index, row in enumerate(edges):
+        # edges = {
+        #     'bounds': import_csv_layout('../assets/map_objects/map_FloorAssets.csv')
+        # }
+        # for style, layout in edges.items():
+            for row_index, row in enumerate(WORLD_MAP):
                 for col_index, col in enumerate(row):
-                    if col != '-1':
+                    # if col != '-1':
                         x = col_index * TILESIZE
                         y = row_index * TILESIZE
-                        if style == 'bounds':
+                        # if style == 'bounds':
+                        if col == 'x':
                             Floor((x, y), [self.visible, self.obstacles], 'invisible')
+                        if col == 'p':
+                            self.you = You((x,y), [self.visible], self.obstacles)
         #         if col == 'x':
         #             Floor((x, y), [self.visible_sprites, self.obstacles])
         #         if col == 'i':
@@ -40,7 +43,7 @@ class Level:
         #             Campfire((x, y), [self.visible_sprites, self.obstacles])
         #         if col == 'p':
         #             self.you = You((x, y), [self.visible_sprites], self.obstacles)
-        self.you = You((1989, 1449), [self.visible], self.obstacles)
+        # self.you = You((1989, 1449), [self.visible], self.obstacles)
         # debug(self.you.obstacles)
 
     def run(self):
@@ -48,6 +51,7 @@ class Level:
         self.visible.custom_d(self.you)
         self.visible.update()
         debug(self.you.direction)
+
 
 # hero center
 class YCameraGroup(pygame.sprite.Group):
@@ -60,7 +64,7 @@ class YCameraGroup(pygame.sprite.Group):
 
         # floor lvl
         self.ground_texture = pygame.image.load('../assets/textures/tiles/ground-base.png').convert()
-        self.ground_texture_draw = self.ground_texture.get_rect(topleft=(0,0))
+        self.ground_texture_draw = self.ground_texture.get_rect(topleft=(0, 0))
 
     def custom_d(self, you):
         # player coords
@@ -68,12 +72,10 @@ class YCameraGroup(pygame.sprite.Group):
         self.centering.y = you.rect.centery - self.half_h
 
         # birthing floor
-        ground_position_of = self.ground_texture_draw.topleft - self.centering
-        self.display_surface.blit(self.ground_texture, ground_position_of)
+        ground_offset = self.ground_texture_draw.topleft - self.centering
+        self.display_surface.blit(self.ground_texture, ground_offset)
 
         # for sprite in self.sprites():
         for sprite in sorted(self.sprites(), key=lambda sprite: sprite.rect.centery):
             center_display = sprite.rect.topleft - self.centering
             self.display_surface.blit(sprite.image, center_display)
-
-
