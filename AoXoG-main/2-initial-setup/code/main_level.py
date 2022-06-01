@@ -25,7 +25,7 @@ class Level:
         #     'bounds': import_csv_layout('../assets/map_objects/map_FloorAssets.csv')
         # }
         # for style, layout in edges.items():
-            for row_index, row in enumerate(WORLD_MAP):
+            for row_index, row in enumerate(WORLD_MAP): #change this to "edges" and uncomment for new map bounds
                 for col_index, col in enumerate(row):
                     # if col != '-1':
                         x = col_index * TILESIZE
