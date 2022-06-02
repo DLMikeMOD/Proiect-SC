@@ -72,7 +72,11 @@ monster_list = {
                 'aggro_range': 400, 'attack_cd': 420},
     'spirit': {'health': 100, 'exp': 110, 'damage': 8, 'attack_type': 'thunder',
                'attack_sound': '../assets/audio/attack/fireball.wav', 'speed': 4, 'def': 3, 'hitbox': 60,
-               'aggro_range': 350, 'attack_cd': 400},
+               'aggro_range': 350, 'attack_cd': 410},
     'bamboo': {'health': 77, 'exp': 120, 'damage': 6, 'attack_type': 'leaf_attack',
                'attack_sound': '../assets/audio/attack/slash.wav', 'speed': 3, 'def': 3, 'hitbox': 50,
-               'aggro_range': 300, 'attack_cd': 333}}
+               'aggro_range': 300, 'attack_cd': 333},
+    'cyclops': {'health': 180, 'exp': 220, 'damage': 12, 'attack_type': 'seed_bullet',
+               'attack_sound': '../assets/audio/attack/slash.wav', 'speed': 4, 'def': 9, 'hitbox': 45,
+               'aggro_range': 333, 'attack_cd': 450}}
+# must add ghost custom type

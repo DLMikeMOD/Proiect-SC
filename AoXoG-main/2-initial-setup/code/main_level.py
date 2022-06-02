@@ -78,8 +78,10 @@ class Level:
                                     npc_name = 'spirit'
                                 elif col == '392':
                                     npc_name = 'raccoon'
+                                # elif col == '394':
+                                #     npc_name = 'cyclops'
                                 else:
-                                    npc_name = 'squid'
+                                    npc_name = 'cyclops'
                                 Enemy(npc_name, (x, y), [self.visible],self.obstacles)
 
         # debug(self.you.obstacles)
