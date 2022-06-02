@@ -5,6 +5,7 @@ from support import *
 from debug import debug
 from random import choice
 from weapons import Weapon
+from ui import UI
 
 
 class Level:
@@ -20,6 +21,9 @@ class Level:
 
         # sprite setup
         self.create_map()
+
+        # UI default
+        self.ui = UI()
 
         #     attack assets
         self.current_attack = None
@@ -70,7 +74,8 @@ class Level:
         # update and draw the game
         self.visible.custom_draw(self.you)
         self.visible.update()
-        debug(self.you.status)
+        self.ui.display(self.you)
+        # debug(self.you.status)
 
 
 # hero center

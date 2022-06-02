@@ -31,6 +31,24 @@ TILESIZE = 64
 #     ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
 # ]
 
+# ui
+BAR_HEIGHT = 22
+HEALTH_BAR_WIDTH = 180
+ENERGY_BAR_WIDTH = 140
+ITEM_BOX_SIZE = 69
+UI_FONT = '../assets/font/joystix.ttf'
+UI_FONT_SIZE = 18
+
+# general colors
+WATER_COLOR = '#71ddee'
+UI_BG_COLOR = '#222222'
+UI_BORDER_COLOR = '#111111'
+TEXT_COLOR = '#EEEEEE'
+
+# ui colors
+HEALTH_COLOR = 'red'
+ENERGY_COLOR = 'blue'
+UI_BORDER_COLOR_ACTIVE = 'gold'
 
 weapon_list = {
     'sword': {'cooldown': 100, 'damage': 15, 'graphic': '../assets/weapons/sword/full.png'},

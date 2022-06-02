@@ -19,7 +19,7 @@ class You(pygame.sprite.Sprite):
 
         # move
         self.direction = pygame.math.Vector2()
-        self.speed = 7
+        # self.speed = 7
         self.attacking = False
         self.attacking_cd = 400
         self.attacking_time = None
@@ -35,6 +35,13 @@ class You(pygame.sprite.Sprite):
         self.weapon_switch = True
         self.weapon_switch_time = None
         self.switch_cd = 200
+
+    # status and ui
+        self.stats = {'health': 142,'mana':70,'attack': 10,'magic': 9,'speed': 6}
+        self.hp = self.stats['health'] * 0.45
+        self.energy = self.stats['mana'] * 0.1
+        self.xp = 111
+        self.speed = self.stats['speed']
 
     def load_you_assets(self):
         hero_path = '../assets/player/'
