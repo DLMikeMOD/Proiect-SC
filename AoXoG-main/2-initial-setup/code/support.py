@@ -1,4 +1,6 @@
 from csv import reader
+from os import walk
+import pygame
 
 
 def import_csv_layout(path):
@@ -10,4 +12,18 @@ def import_csv_layout(path):
         return terrain
 
 
+def import_folder(path):
+    surface_list = []
+
+    for mainfolder,emptylist,img_files in walk(path):
+        for image in img_files:
+            full_path = path + '/' + image
+            image_surface = pygame.image.load(full_path).convert_alpha()
+            surface_list.append(image_surface)
+
+    return surface_list
+
+
+
+# print(import_folder("../assets/grass"))
 # print(import_csv_layout('../assets/map_objects/map_FloorAssets.csv'))
