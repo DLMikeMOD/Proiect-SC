@@ -1,3 +1,4 @@
+
 from settings import *
 from floor import Floor
 from you import You
@@ -6,6 +7,8 @@ from debug import debug
 from random import choice
 from weapons import Weapon
 from ui import UI
+from entities import Entity
+from enemies import Enemy
 
 
 class Level:
@@ -28,13 +31,13 @@ class Level:
         #     attack assets
         self.current_attack = None
 
-    # birthplace of the map
+    # birthplace of the map and objects
     def create_map(self):
         edges = {
             'bounds': import_csv_layout('../assets/map_objects/map_FloorAssets.csv'),
             'grass': import_csv_layout('../assets/map_objects/map_Grass.csv'),
             'large_objects': import_csv_layout('../assets/map_objects/map_LargeObjects.csv'),
-            # 'entities': import_csv_layout('../assets/map_objects/map_Entities.csv'),
+            'entities': import_csv_layout('../assets/map_objects/map_Entities.csv'),
             # 'details': import_csv_layout('../assets/map_objects/map_Details.csv'),
         }
 
@@ -42,7 +45,7 @@ class Level:
             'grass': import_folder("../assets/grass"),
             'big_obj': import_folder("../assets/objects")
         }
-        print(video_assets)
+        # print(video_assets)
 
         for style, layout in edges.items():
             for row_index, row in enumerate(layout):
@@ -59,11 +62,35 @@ class Level:
                             obj_surface = video_assets['big_obj'][int(col)]
                             Floor((x, y), [self.visible, self.obstacles], 'large_objects', obj_surface)
 
-        self.you = You((1989, 1449), [self.visible], self.obstacles, self.create_attacking, self.destroy_attack)
+                        if style == 'entities':
+                            if col == '394':
+                                self.you = You((2255, 2700),  # could also work with (x,y)
+                                               [self.visible],
+                                               self.obstacles,
+                                               self.create_attacking,
+                                               self.destroy_attack,
+                                               self.create_spell)
+
+                            else:
+                                if col == '390':
+                                    npc_name = 'bamboo'
+                                elif col == '391':
+                                    npc_name = 'spirit'
+                                elif col == '392':
+                                    npc_name = 'raccoon'
+                                else:
+                                    npc_name = 'squid'
+                                Enemy(npc_name, (x, y), [self.visible],self.obstacles)
+
         # debug(self.you.obstacles)
 
     def create_attacking(self):
         self.current_attack = Weapon(self.you, [self.visible])
+
+    def create_spell(self, style, str, cost):
+        print(style)
+        print(str)
+        print(cost)
 
     def destroy_attack(self):
         if self.current_attack:
@@ -75,6 +102,7 @@ class Level:
         self.visible.custom_draw(self.you)
         self.visible.update()
         self.ui.display(self.you)
+        self.visible.npc_update(self.you)
         # debug(self.you.status)
 
 
@@ -106,3 +134,8 @@ class YCameraGroup(pygame.sprite.Group):
         for sprite in sorted(self.sprites(), key=lambda sprite: sprite.rect.centery):
             center_display = sprite.rect.topleft - self.centering
             self.display_surface.blit(sprite.image, center_display)
+
+    def npc_update(self,you):
+        npc_sprites =[sprite for sprite in self.sprites()if hasattr(sprite, 'sprite_type') and sprite.sprite_type == 'enemy']
+        for npc in npc_sprites:
+            npc.npc_update(you)

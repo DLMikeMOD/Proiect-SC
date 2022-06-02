@@ -2,10 +2,11 @@ import pygame
 from settings import *
 from main_level import *
 from support import import_folder
+from entities import Entity
 
 
-class You(pygame.sprite.Sprite):
-    def __init__(self, pos, groups, obstacles, create_attacking, destroy_attack):
+class You(Entity):
+    def __init__(self, pos, groups, obstacles, create_attacking, destroy_attack, create_spell):
         super().__init__(groups)
         self.image = pygame.image.load('../assets/test/player.png').convert_alpha()
         self.rect = self.image.get_rect(topleft=pos)
@@ -14,11 +15,11 @@ class You(pygame.sprite.Sprite):
         # asset setupod for movement of you
         self.load_you_assets()
         self.status = 'down'
-        self.frame_index = 0
-        self.animation_speed = 0.15
+        # self.frame_index = 0
+        # self.animation_speed = 0.15
 
         # move
-        self.direction = pygame.math.Vector2()
+        # self.direction = pygame.math.Vector2()
         # self.speed = 7
         self.attacking = False
         self.attacking_cd = 400
@@ -36,11 +37,20 @@ class You(pygame.sprite.Sprite):
         self.weapon_switch_time = None
         self.switch_cd = 200
 
-    # status and ui
+    #     spells config
+        self.create_spell = create_spell
+        self.magic_index = 0
+        self.magic = list(magic_list.keys())[self.magic_index]
+        self.magic_switch = True
+        self.magic_switch_time = None
+
+
+
+    # status and ui (every good story starts when you are hurt)
         self.stats = {'health': 142,'mana':70,'attack': 10,'magic': 9,'speed': 6}
         self.hp = self.stats['health'] * 0.45
-        self.energy = self.stats['mana'] * 0.1
-        self.xp = 111
+        self.energy = self.stats['mana'] * 0.21
+        self.xp = 420
         self.speed = self.stats['speed']
 
     def load_you_assets(self):
@@ -99,8 +109,12 @@ class You(pygame.sprite.Sprite):
             if keys[pygame.K_RCTRL]:
                 self.attacking = True
                 self.attacking_time = pygame.time.get_ticks()
-                print('magic')
+                style = list(magic_list.keys())[self.magic_index]
+                strenght = list(magic_list.values())[self.magic_index]['power'] + self.stats['magic']
+                cost = list(magic_list.values())[self.magic_index]['cost']
+                self.create_spell(style,strenght,cost)
 
+            # swicth weapon
             if keys[pygame.K_q] and self.weapon_switch:
                 self.weapon_switch = False
                 self.weapon_switch_time = pygame.time.get_ticks()
@@ -111,6 +125,19 @@ class You(pygame.sprite.Sprite):
                     self.weapon_index = 0
 
                 self.weapon = list(weapon_list.keys())[self.weapon_index]
+
+
+                # swicth spells
+            if keys[pygame.K_e] and self.magic_switch:
+                self.magic_switch = False
+                self.magic_switch_time = pygame.time.get_ticks()
+
+                if self.magic_index < len(list(magic_list.keys())) - 1:
+                    self.magic_index += 1
+                else:
+                    self.magic_index = 0
+
+                    self.magic = list(magic_list.keys())[self.magic_index]
 
     def get_sts(self):
 
@@ -133,35 +160,35 @@ class You(pygame.sprite.Sprite):
             if 'attac' in self.status:
                 self.status = self.status.replace("_attac", '')
 
-    def move(self, speed):
-        if self.direction.magnitude() != 0:
-            self.direction = self.direction.normalize()
-
-        self.hitbox.x += self.direction.x * speed
-        self.collide('horizontal')
-        self.hitbox.y += self.direction.y * speed
-        self.collide('vertical')
-        self.rect.center = self.hitbox.center
-
-        self.rect.center += self.direction * speed
-
-    # collision functionality
-    def collide(self, direction):
-        if direction == 'horizontal':
-            for sprite in self.obstacles:
-                if sprite.hitbox.colliderect(self.hitbox):
-                    if self.direction.x > 0:  # right
-                        self.hitbox.right = sprite.hitbox.left
-                    if self.direction.x < 0:  # left
-                        self.hitbox.left = sprite.hitbox.right
-
-        if direction == 'vertical':
-            for sprite in self.obstacles:
-                if sprite.hitbox.colliderect(self.hitbox):
-                    if self.direction.y > 0:  # down
-                        self.hitbox.bottom = sprite.hitbox.top
-                    if self.direction.y < 0:  # up
-                        self.hitbox.top = sprite.hitbox.bottom
+    # def move(self, speed):
+    #     if self.direction.magnitude() != 0:
+    #         self.direction = self.direction.normalize()
+    #
+    #     self.hitbox.x += self.direction.x * speed
+    #     self.collide('horizontal')
+    #     self.hitbox.y += self.direction.y * speed
+    #     self.collide('vertical')
+    #     self.rect.center = self.hitbox.center
+    #
+    #     self.rect.center += self.direction * speed
+    #
+    # # collision functionality
+    # def collide(self, direction):
+    #     if direction == 'horizontal':
+    #         for sprite in self.obstacles:
+    #             if sprite.hitbox.colliderect(self.hitbox):
+    #                 if self.direction.x > 0:  # right
+    #                     self.hitbox.right = sprite.hitbox.left
+    #                 if self.direction.x < 0:  # left
+    #                     self.hitbox.left = sprite.hitbox.right
+    #
+    #     if direction == 'vertical':
+    #         for sprite in self.obstacles:
+    #             if sprite.hitbox.colliderect(self.hitbox):
+    #                 if self.direction.y > 0:  # down
+    #                     self.hitbox.bottom = sprite.hitbox.top
+    #                 if self.direction.y < 0:  # up
+    #                     self.hitbox.top = sprite.hitbox.bottom
 
     # this runs forever
     def cooldown(self):
@@ -175,6 +202,11 @@ class You(pygame.sprite.Sprite):
         if not self.weapon_switch:
             if current_time - self.weapon_switch_time >= self.switch_cd:
                 self.weapon_switch = True
+                # self.destroy_attack()
+
+        if not self.magic_switch:
+            if current_time - self.magic_switch_time >= self.switch_cd:
+                self.magic_switch = True
                 # self.destroy_attack()
 
     def animate(self):

@@ -1,0 +1,4 @@
+WASD - movement
+left ctrl - attack
+left shift - magic (particles tba)
+q - cycle weapon

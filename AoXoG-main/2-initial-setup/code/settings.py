@@ -48,11 +48,31 @@ TEXT_COLOR = '#EEEEEE'
 # ui colors
 HEALTH_COLOR = 'red'
 ENERGY_COLOR = 'blue'
-UI_BORDER_COLOR_ACTIVE = 'gold'
+UI_BORDER_COLOR_ACTIVE = 'white'
 
 weapon_list = {
-    'sword': {'cooldown': 100, 'damage': 15, 'graphic': '../assets/weapons/sword/full.png'},
-    'lance': {'cooldown': 400, 'damage': 30, 'graphic': '../assets/weapons/lance/full.png'},
-    'axe': {'cooldown': 300, 'damage': 20, 'graphic': '../assets/weapons/axe/full.png'},
-    'rapier': {'cooldown': 50, 'damage': 8, 'graphic': '../assets/weapons/rapier/full.png'},
-    'sai': {'cooldown': 80, 'damage': 10, 'graphic': '../assets/weapons/sai/full.png'}}
+    'sword': {'cooldown': 100, 'damage': 15, 'icon': '../assets/weapons/sword/full.png'},
+    'lance': {'cooldown': 400, 'damage': 30, 'icon': '../assets/weapons/lance/full.png'},
+    'axe': {'cooldown': 300, 'damage': 20, 'icon': '../assets/weapons/axe/full.png'},
+    'rapier': {'cooldown': 50, 'damage': 8, 'icon': '../assets/weapons/rapier/full.png'},
+    'sai': {'cooldown': 80, 'damage': 10, 'icon': '../assets/weapons/sai/full.png'}
+}
+
+magic_list = {
+    'heal': {'power': 10, 'cost': 10, 'icon': '../assets/particles/heal/heal.png'},
+    'flame': {'power': 25, 'cost': 20, 'icon': '../assets/particles/flame/fire.png'}
+}
+
+monster_list = {
+    'squid': {'health': 100, 'exp': 100, 'damage': 10, 'attack_type': 'slash',
+              'attack_sound': '../assets/audio/attack/slash.wav', 'speed': 3, 'def': 3, 'hitbox': 80,
+              'aggro_range': 360, 'attack_cd': 69},
+    'raccoon': {'health': 350, 'exp': 250, 'damage': 42, 'attack_type': 'claw',
+                'attack_sound': '../assets/audio/attack/claw.wav', 'speed': 2, 'def': 3, 'hitbox': 120,
+                'aggro_range': 400, 'attack_cd': 420},
+    'spirit': {'health': 100, 'exp': 110, 'damage': 8, 'attack_type': 'thunder',
+               'attack_sound': '../assets/audio/attack/fireball.wav', 'speed': 4, 'def': 3, 'hitbox': 60,
+               'aggro_range': 350, 'attack_cd': 400},
+    'bamboo': {'health': 77, 'exp': 120, 'damage': 6, 'attack_type': 'leaf_attack',
+               'attack_sound': '../assets/audio/attack/slash.wav', 'speed': 3, 'def': 3, 'hitbox': 50,
+               'aggro_range': 300, 'attack_cd': 333}}
