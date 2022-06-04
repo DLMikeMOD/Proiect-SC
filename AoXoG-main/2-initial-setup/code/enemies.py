@@ -90,8 +90,8 @@ class Enemy(Entity):
 
     def cd(self):
         if not self.can_attack:
-            current_time = pygame.time.get_ticks()
-            if current_time - self.attack_time >= self.attack_cd:
+            time_now = pygame.time.get_ticks()
+            if time_now - self.attack_time >= self.attack_cd:
                 self.can_attack = True
 
     def update(self):

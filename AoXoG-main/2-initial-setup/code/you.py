@@ -6,7 +6,7 @@ from entities import Entity
 
 
 class You(Entity):
-    def __init__(self, pos, groups, obstacles, create_attacking, destroy_attack, create_spell):
+    def __init__(self, pos, groups, obstacles, create_attack, destroy_attack, create_spell):
         super().__init__(groups)
         self.image = pygame.image.load('../assets/test/player.png').convert_alpha()
         self.rect = self.image.get_rect(topleft=pos)
@@ -24,11 +24,11 @@ class You(Entity):
         self.attacking = False
         self.attacking_cd = 400
         self.attacking_time = None
-
         self.obstacles = obstacles
 
+
         # weaponization
-        self.create_attack = create_attacking
+        self.create_attack = create_attack
         self.destroy_attack = destroy_attack
         self.weapon_index = 0
         self.weapon = list(weapon_list.keys())[self.weapon_index]
@@ -160,42 +160,13 @@ class You(Entity):
             if 'attac' in self.status:
                 self.status = self.status.replace("_attac", '')
 
-    # def move(self, speed):
-    #     if self.direction.magnitude() != 0:
-    #         self.direction = self.direction.normalize()
-    #
-    #     self.hitbox.x += self.direction.x * speed
-    #     self.collide('horizontal')
-    #     self.hitbox.y += self.direction.y * speed
-    #     self.collide('vertical')
-    #     self.rect.center = self.hitbox.center
-    #
-    #     self.rect.center += self.direction * speed
-    #
-    # # collision functionality
-    # def collide(self, direction):
-    #     if direction == 'horizontal':
-    #         for sprite in self.obstacles:
-    #             if sprite.hitbox.colliderect(self.hitbox):
-    #                 if self.direction.x > 0:  # right
-    #                     self.hitbox.right = sprite.hitbox.left
-    #                 if self.direction.x < 0:  # left
-    #                     self.hitbox.left = sprite.hitbox.right
-    #
-    #     if direction == 'vertical':
-    #         for sprite in self.obstacles:
-    #             if sprite.hitbox.colliderect(self.hitbox):
-    #                 if self.direction.y > 0:  # down
-    #                     self.hitbox.bottom = sprite.hitbox.top
-    #                 if self.direction.y < 0:  # up
-    #                     self.hitbox.top = sprite.hitbox.bottom
 
     # this runs forever
     def cooldown(self):
         current_time = pygame.time.get_ticks()
 
         if self.attacking:
-            if current_time - self.attacking_time >= self.attacking_cd:
+            if current_time - self.attacking_time >= self.attacking_cd + weapon_list[self.weapon]['cooldown']:
                 self.attacking = False
                 self.destroy_attack()
 

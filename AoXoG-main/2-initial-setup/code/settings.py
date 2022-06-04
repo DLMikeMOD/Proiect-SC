@@ -77,6 +77,6 @@ monster_list = {
                'attack_sound': '../assets/audio/attack/slash.wav', 'speed': 3, 'def': 3, 'hitbox': 50,
                'aggro_range': 300, 'attack_cd': 333},
     'cyclops': {'health': 180, 'exp': 220, 'damage': 12, 'attack_type': 'seed_bullet',
-               'attack_sound': '../assets/audio/attack/slash.wav', 'speed': 4, 'def': 9, 'hitbox': 45,
-               'aggro_range': 333, 'attack_cd': 450}}
+               'attack_sound': '../assets/audio/attack/slash.wav', 'speed': 2.7, 'def': 9, 'hitbox': 45,
+               'aggro_range': 333, 'attack_cd': 300}}
 # must add ghost custom type
