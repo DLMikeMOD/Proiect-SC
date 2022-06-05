@@ -12,7 +12,7 @@ def import_csv_layout(path):
         return terrain
 
 
-def import_folder(path):
+def import_directory(path):
     surface_list = []
 
     for mainfolder,emptylist,img_files in walk(path):

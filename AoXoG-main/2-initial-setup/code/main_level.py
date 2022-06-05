@@ -105,13 +105,13 @@
 #             self.current_attack.kill()
 #         self.current_attack = None
 #
-    # def you_attack_structure(self):
-    #     if self.attack_sprites:
-    #         for attack_sprite in self.attack_sprites:
-    #             collide_sprite = pygame.sprite.spritecollide(attack_sprite, self.destroyable_sprites, True)
-    #             if collide_sprite:
-    #                 for desired_sprite in collide_sprite:
-    #                     desired_sprite.kill()
+# def you_attack_structure(self):
+#     if self.attack_sprites:
+#         for attack_sprite in self.attack_sprites:
+#             collide_sprite = pygame.sprite.spritecollide(attack_sprite, self.destroyable_sprites, True)
+#             if collide_sprite:
+#                 for desired_sprite in collide_sprite:
+#                     desired_sprite.kill()
 #
 #     def run(self):
 #         # update and draw the game
@@ -166,11 +166,12 @@ from floor import Floor
 from you import You
 from support import *
 from debug import debug
-from random import choice
+from random import choice, randint
 from weapons import Weapon
 from ui import UI
 from entities import Entity
 from enemies import Enemy
+from texturesplash import YouAnimation
 
 
 class Level:
@@ -194,6 +195,9 @@ class Level:
         # UI default
         self.ui = UI()
 
+        #     splash animation
+        self.animation_you = YouAnimation()
+
     # birthplace of the map and objects
     def create_map(self):
         edges = {
@@ -205,8 +209,8 @@ class Level:
         }
 
         video_assets = {
-            'grass': import_folder("../assets/grass"),
-            'big_obj': import_folder("../assets/objects")
+            'grass': import_directory("../assets/grass"),
+            'big_obj': import_directory("../assets/objects")
         }
         # print(video_assets)
 
@@ -252,7 +256,8 @@ class Level:
                                     (x, y),
                                     [self.visible, self.destroyable_sprites],
                                     self.obstacles,
-                                    self.damaj_to_you)
+                                    self.damaj_to_you,
+                                    self.kill_splash)
 
     def create_attack(self):
 
@@ -275,17 +280,24 @@ class Level:
                 if collide_sprite:
                     for desired_sprite in collide_sprite:
                         if desired_sprite.sprite_type == 'grass':
+                            loc = desired_sprite.rect.center
+                            offset = pygame.math.Vector2(0, 69)
+                            for leaf in range(randint(3, 6)):
+                                self.animation_you.create_grass_splash(loc - offset, [self.visible])
                             desired_sprite.kill()
                         else:
-                            desired_sprite.damaj(self.you,attack_sprite.sprite_type)
+                            desired_sprite.damaj(self.you, attack_sprite.sprite_type)
 
-    def damaj_to_you(self,ammount,attack_type):
+    def damaj_to_you(self, ammount, attack_type):
         if self.you.vincible:
             self.you.hp -= ammount
             self.you.vincible = False
             self.you.pain_time = pygame.time.get_ticks()
+            self.animation_you.create_genericsplash(attack_type,self.you.rect.center,[self.visible])
 
-    #         particles go here
+    def kill_splash(self,loc,splash_type):
+
+        self.animation_you.create_genericsplash(splash_type,loc,self.visible)
 
     def run(self):
         # update and draw the game

@@ -37,6 +37,6 @@ class Floor(pygame.sprite.Sprite):
 # class Campfire(pygame.sprite.Sprite):
 #     def __init__(self, pos, groups):
 #         super().__init__(groups)
-#         self.image = pygame.image.load('../assets/test/campfire_48x48.gif').convert_alpha()
+#         self.image = pygame.image.load('../assets/objects/campfire/campfire_48x48.gif').convert_alpha()
 #         self.rect = self.image.get_rect(bottomleft=pos)
 #         self.hitbox = self.rect.inflate(0, -5)

@@ -6,8 +6,9 @@ from entities import *
 from support import *
 from you import You
 
+
 class Enemy(Entity):
-    def __init__(self, npc_name, position, groups, obstacles,damaj_you):
+    def __init__(self, npc_name, position, groups, obstacles, damaj_you, kill_splash):
         # general info
         super().__init__(groups)
         self.sprite_type = 'enemy'
@@ -19,10 +20,10 @@ class Enemy(Entity):
 
         # npc_move
         self.rect = self.image.get_rect(topleft=position)
-        self.hitbox = self.rect.inflate(0,-11)
+        self.hitbox = self.rect.inflate(0, -11)
         self.obstacles = obstacles
 
-    #     npc stats
+        #     npc stats
         self.monster_name = npc_name
         monster_info = monster_list[self.monster_name]
         self.health = monster_info['health']
@@ -34,34 +35,35 @@ class Enemy(Entity):
         self.notice_radius = monster_info['aggro_range']
         self.attack_type = monster_info['attack_type']
 
-    #     hero actions
+        #     hero actions
         self.can_attack = True
         self.attack_time = None
         self.attack_cd = 420
         self.damaj_you = damaj_you
+        self.kill_splash = kill_splash
 
-    # Invulnrable frame timer
+        # Invulnrable frame timer
         self.vincible = True
         self.damage_time = None
         self.invincibility_lenght = 300
 
     def import_npc(self, name):
-        self.animations = {'idle':[], 'move':[], 'attac':[]}
+        self.animations = {'idle': [], 'move': [], 'attac': []}
         npc_path = f"../assets/enemies/{name}/"
         for animation in self.animations.keys():
-            self.animations[animation] = import_folder(npc_path + animation)
+            self.animations[animation] = import_directory(npc_path + animation)
 
-    def get_you_distance_direction(self,you):
+    def get_you_distance_direction(self, you):
         npc_vector = pygame.math.Vector2(self.rect.center)
         you_vector = pygame.math.Vector2(you.rect.center)
-        distance = (you_vector - npc_vector).magnitude() #magnitude converts vector to distance
+        distance = (you_vector - npc_vector).magnitude()  # magnitude converts vector to distance
 
-        if distance >0:
-            direction = (you_vector - npc_vector).normalize() # normalizez move towards player after calculation
+        if distance > 0:
+            direction = (you_vector - npc_vector).normalize()  # normalizez move towards player after calculation
         else:
-            direction=pygame.math.Vector2()
+            direction = pygame.math.Vector2()
 
-        return (distance,direction)
+        return (distance, direction)
 
     def get_status(self, you):
         distance = self.get_you_distance_direction(you)[0]
@@ -73,14 +75,14 @@ class Enemy(Entity):
         elif distance <= self.notice_radius:
             self.status = 'move'
         else:
-            self.status= 'idle'
+            self.status = 'idle'
 
-    def action(self,you):
+    def action(self, you):
         if self.status == 'attac':
             self.attack_time = pygame.time.get_ticks()
-            self.damaj_you(self.attack_damage,self.attack_type)
+            self.damaj_you(self.attack_damage, self.attack_type)
         elif self.status == 'move':
-            self.direction =self.get_you_distance_direction(you)[1]
+            self.direction = self.get_you_distance_direction(you)[1]
         else:
             self.direction = pygame.math.Vector2()
 
@@ -101,7 +103,7 @@ class Enemy(Entity):
             alfa = self.flick_value()
             self.image.set_alpha(alfa)
         else:
-            self.image.set_alpha(255) # 255 means full value
+            self.image.set_alpha(255)  # 255 means full value
 
     def cd(self):
         time_now = pygame.time.get_ticks()
@@ -113,20 +115,21 @@ class Enemy(Entity):
             if time_now - self.damage_time >= self.invincibility_lenght:
                 self.vincible = True
 
-    def damaj(self,you,type_of_attac):
+    def damaj(self, you, type_of_attac):
         if self.vincible:
             self.direction = self.get_you_distance_direction(you)[1]
             if type_of_attac == 'weapon':
                 self.health -= you.get_weapon_damaj()
             else:
                 pass
-        #     magic damaj
+            #     magic damaj
             self.damage_time = pygame.time.get_ticks()
             self.vincible = False
 
     def kill_check(self):
         if self.health <= 0:
-           self.kill()
+            self.kill()
+            self.kill_splash(self.rect.center,self.monster_name)
 
     def damaj_react(self):
         if not self.vincible:
@@ -139,6 +142,6 @@ class Enemy(Entity):
         self.cd()
         self.kill_check()
 
-    def npc_update(self,you):
+    def npc_update(self, you):
         self.get_status(you)
         self.action(you)

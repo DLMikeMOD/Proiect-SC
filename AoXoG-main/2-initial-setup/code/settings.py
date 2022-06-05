@@ -59,8 +59,8 @@ weapon_list = {
 }
 
 magic_list = {
-    'heal': {'power': 10, 'cost': 10, 'icon': '../assets/particles/heal/heal.png'},
-    'flame': {'power': 25, 'cost': 20, 'icon': '../assets/particles/flame/fire.png'}
+    'heal': {'power': 10, 'cost': 10, 'icon': '../assets/splash-animation/heal/heal.png'},
+    'flame': {'power': 25, 'cost': 20, 'icon': '../assets/splash-animation/flame/fire.png'}
 }
 
 monster_list = {
@@ -76,7 +76,7 @@ monster_list = {
     'bamboo': {'health': 77, 'exp': 120, 'damage': 6, 'attack_type': 'leaf_attack',
                'attack_sound': '../assets/audio/attack/slash.wav', 'speed': 3, 'def': 3, 'hitbox': 50,
                'aggro_range': 300, 'attack_cd': 333},
-    'cyclops': {'health': 180, 'exp': 220, 'damage': 12, 'attack_type': 'seed_bullet',
+    'cyclops': {'health': 180, 'exp': 220, 'damage': 7, 'attack_type': 'seed_bullet',
                'attack_sound': '../assets/audio/attack/slash.wav', 'speed': 2.7, 'def': 9, 'hitbox': 45,
-               'aggro_range': 333, 'attack_cd': 300}}
+               'aggro_range': 333, 'attack_cd': 200}}
 # must add ghost custom type

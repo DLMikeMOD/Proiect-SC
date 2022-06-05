@@ -1,7 +1,7 @@
 import pygame
 from settings import *
 from main_level import *
-from support import import_folder
+from support import import_directory
 from entities import Entity
 
 
@@ -22,10 +22,9 @@ class You(Entity):
         # self.direction = pygame.math.Vector2()
         # self.speed = 7
         self.attacking = False
-        self.attacking_cd = 400
+        self.attacking_cd = 600
         self.attacking_time = None
         self.obstacles = obstacles
-
 
         # weaponization
         self.create_attack = create_attack
@@ -37,23 +36,21 @@ class You(Entity):
         self.weapon_switch_time = None
         self.switch_cd = 200
 
-    #     spells config
+        #     spells config
         self.create_spell = create_spell
         self.magic_index = 0
         self.magic = list(magic_list.keys())[self.magic_index]
         self.magic_switch = True
         self.magic_switch_time = None
 
-
-
-    # status and ui (every good story starts when you are hurt)
-        self.stats = {'health': 142,'mana':70,'attack': 10,'magic': 9,'speed': 6}
+        # status and ui (every good story starts when you are hurt)
+        self.stats = {'health': 142, 'mana': 69, 'attack': 10, 'magic': 9, 'speed': 6}
         self.hp = self.stats['health'] * 0.45
         self.energy = self.stats['mana'] * 0.21
         self.xp = 420
         self.speed = self.stats['speed']
 
-    # damaj time
+        # damaj time
         self.vincible = True
         self.pain_time = None
         self.invincible_duration = 500
@@ -77,7 +74,7 @@ class You(Entity):
 
         for animation in self.animations.keys():
             animation_fpath = hero_path + animation
-            self.animations[animation] = import_folder(animation_fpath)
+            self.animations[animation] = import_directory(animation_fpath)
 
     def input(self):
         if not self.attacking:
@@ -117,7 +114,7 @@ class You(Entity):
                 style = list(magic_list.keys())[self.magic_index]
                 strenght = list(magic_list.values())[self.magic_index]['power'] + self.stats['magic']
                 cost = list(magic_list.values())[self.magic_index]['cost']
-                self.create_spell(style,strenght,cost)
+                self.create_spell(style, strenght, cost)
 
             # swicth weapon
             if keys[pygame.K_q] and self.weapon_switch:
@@ -130,7 +127,6 @@ class You(Entity):
                     self.weapon_index = 0
 
                 self.weapon = list(weapon_list.keys())[self.weapon_index]
-
 
                 # swicth spells
             if keys[pygame.K_e] and self.magic_switch:
@@ -208,10 +204,9 @@ class You(Entity):
             self.image.set_alpha(255)
 
     def get_weapon_damaj(self):
-        base_dmg = self.stats ['attack']
+        base_dmg = self.stats['attack']
         weapon_dmg = weapon_list[self.weapon]['damage']
         return base_dmg + weapon_dmg
-
 
     def update(self):
         self.input()
