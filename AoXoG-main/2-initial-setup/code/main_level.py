@@ -229,7 +229,7 @@ class Level:
 
                         if style == 'entities':
                             if col == '394':
-                                self.player = You(
+                                self.you = You(
                                     (x, y),
                                     [self.visible],
                                     self.obstacles,
@@ -251,11 +251,12 @@ class Level:
                                     monster_name,
                                     (x, y),
                                     [self.visible, self.destroyable_sprites],
-                                    self.obstacles)
+                                    self.obstacles,
+                                    self.damaj_to_you)
 
     def create_attack(self):
 
-        self.current_attack = Weapon(self.player, [self.visible, self.attack_sprites])
+        self.current_attack = Weapon(self.you, [self.visible, self.attack_sprites])
 
     def create_magic(self, style, strength, cost):
         print(style)
@@ -270,19 +271,29 @@ class Level:
     def you_attack_logic(self):
         if self.attack_sprites:
             for attack_sprite in self.attack_sprites:
-                collide_sprite = pygame.sprite.spritecollide(attack_sprite, self.destroyable_sprites, True)
+                collide_sprite = pygame.sprite.spritecollide(attack_sprite, self.destroyable_sprites, False)
                 if collide_sprite:
                     for desired_sprite in collide_sprite:
-                        desired_sprite.kill()
+                        if desired_sprite.sprite_type == 'grass':
+                            desired_sprite.kill()
+                        else:
+                            desired_sprite.damaj(self.you,attack_sprite.sprite_type)
 
+    def damaj_to_you(self,ammount,attack_type):
+        if self.you.vincible:
+            self.you.hp -= ammount
+            self.you.vincible = False
+            self.you.pain_time = pygame.time.get_ticks()
+
+    #         particles go here
 
     def run(self):
         # update and draw the game
-        self.visible.custom_draw(self.player)
+        self.visible.custom_draw(self.you)
         self.visible.update()
-        self.visible.enemy_update(self.player)
+        self.visible.enemy_update(self.you)
         self.you_attack_logic()
-        self.ui.display(self.player)
+        self.ui.display(self.you)
 
 
 class YCameraGroup(pygame.sprite.Group):
@@ -299,11 +310,11 @@ class YCameraGroup(pygame.sprite.Group):
         self.floor_surf = pygame.image.load('../assets/textures/tiles/ground-base.png').convert()
         self.floor_rect = self.floor_surf.get_rect(topleft=(0, 0))
 
-    def custom_draw(self, player):
+    def custom_draw(self, you):
 
         # getting the offset
-        self.offset.x = player.rect.centerx - self.half_width
-        self.offset.y = player.rect.centery - self.half_height
+        self.offset.x = you.rect.centerx - self.half_width
+        self.offset.y = you.rect.centery - self.half_height
 
         # drawing the floor
         floor_offset_pos = self.floor_rect.topleft - self.offset
@@ -314,8 +325,8 @@ class YCameraGroup(pygame.sprite.Group):
             offset_pos = sprite.rect.topleft - self.offset
             self.display_surface.blit(sprite.image, offset_pos)
 
-    def enemy_update(self, player):
+    def enemy_update(self, you):
         enemy_sprites = [sprite for sprite in self.sprites() if
                          hasattr(sprite, 'sprite_type') and sprite.sprite_type == 'enemy']
         for enemy in enemy_sprites:
-            enemy.npc_update(player)
+            enemy.npc_update(you)

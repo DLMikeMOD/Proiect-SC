@@ -53,6 +53,11 @@ class You(Entity):
         self.xp = 420
         self.speed = self.stats['speed']
 
+    # damaj time
+        self.vincible = True
+        self.pain_time = None
+        self.invincible_duration = 500
+
     def load_you_assets(self):
         hero_path = '../assets/player/'
         self.animations = {
@@ -160,7 +165,6 @@ class You(Entity):
             if 'attac' in self.status:
                 self.status = self.status.replace("_attac", '')
 
-
     # this runs forever
     def cooldown(self):
         current_time = pygame.time.get_ticks()
@@ -180,6 +184,10 @@ class You(Entity):
                 self.magic_switch = True
                 # self.destroy_attack()
 
+        if not self.vincible:
+            if current_time - self.pain_time >= self.invincible_duration:
+                self.vincible = True
+
     def animate(self):
         animation = self.animations[self.status]
 
@@ -191,6 +199,19 @@ class You(Entity):
         #  seteaza iamginea
         self.image = animation[int(self.frame_index)]  # mut be converted
         self.rect = self.image.get_rect(center=self.hitbox.center)
+
+        # your flicker
+        if not self.vincible:
+            alfa = self.flick_value()
+            self.image.set_alpha(alfa)
+        else:
+            self.image.set_alpha(255)
+
+    def get_weapon_damaj(self):
+        base_dmg = self.stats ['attack']
+        weapon_dmg = weapon_list[self.weapon]['damage']
+        return base_dmg + weapon_dmg
+
 
     def update(self):
         self.input()
