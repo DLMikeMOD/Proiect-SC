@@ -1,0 +1,8 @@
+pip install pygame
+Run main.py from code folder
+
+WASD - movement
+left ctrl - attack
+left shift - magic (particles tba)
+q - cycle weapon
+
