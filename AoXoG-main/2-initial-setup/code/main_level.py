@@ -172,6 +172,7 @@ from ui import UI
 from entities import Entity
 from enemies import Enemy
 from texturesplash import YouAnimation
+from spells import YouMagic
 
 
 class Level:
@@ -195,8 +196,9 @@ class Level:
         # UI default
         self.ui = UI()
 
-        #     splash animation
+        #     splash animation for player to be used in spells
         self.animation_you = YouAnimation()
+        self.you_animation = YouMagic(self.animation_you)
 
     # birthplace of the map and objects
     def create_map(self):
@@ -263,10 +265,19 @@ class Level:
 
         self.current_attack = Weapon(self.you, [self.visible, self.attack_sprites])
 
-    def create_magic(self, style, strength, cost):
-        print(style)
-        print(strength)
-        print(cost)
+    def create_magic(self, style, power, cost):
+        if style == 'heal':
+            self.you_animation.heal(self.you,power,cost,[self.visible])
+
+        if style == 'flame':
+            self.you_animation.flame(self.you,cost,[self.visible,self.attack_sprites])
+
+        if style == 'ice-spike':
+            self.you_animation.ice_spike(self.you,cost,[self.visible,self.attack_sprites])
+
+        # print(style)
+        # print(strength)
+        # print(cost)
 
     def destroy_attack(self):
         if self.current_attack:

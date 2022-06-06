@@ -13,6 +13,7 @@ class YouAnimation:
             'flame': import_directory('../assets/splash-animation/flame/frames'),
             'aura': import_directory('../assets/splash-animation/aura'),
             'heal': import_directory('../assets/splash-animation/heal/frames'),
+            'ice-spike': import_directory('../assets/splash-animation/ice_spell/frames'),
 
             # attacks
             'claw': import_directory('../assets/splash-animation/claw'),
@@ -68,6 +69,7 @@ class YouAnimation:
 class SplashEffects(pygame.sprite.Sprite):
     def __init__(self, loc, splash_animation, groups):
         super().__init__(groups)
+        self.sprite_type = 'spells'
         self.frame_index = 0
         self.splash_speed = 0.15
         self.splash_frames = splash_animation

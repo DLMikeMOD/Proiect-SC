@@ -45,8 +45,8 @@ class You(Entity):
 
         # status and ui (every good story starts when you are hurt)
         self.stats = {'health': 142, 'mana': 69, 'attack': 10, 'magic': 9, 'speed': 6}
-        self.hp = self.stats['health'] * 0.45
-        self.energy = self.stats['mana'] * 0.21
+        self.hp = self.stats['health'] * 0.42
+        self.energy = self.stats['mana'] * 0.69
         self.xp = 420
         self.speed = self.stats['speed']
 
@@ -208,11 +208,23 @@ class You(Entity):
         weapon_dmg = weapon_list[self.weapon]['damage']
         return base_dmg + weapon_dmg
 
+    def get_spell_damaj(self):
+        base_dmg = self.stats['magic']
+        spell_dmg = magic_list[self.magic]['power']
+        return base_dmg + spell_dmg
+
+    def mana_regen(self):
+        if self.energy < self.stats['mana']:
+            self.energy += 0.0001 * self.stats['mana']
+        else:
+            self.energy = self.stats['mana']
+
     def update(self):
         self.input()
         self.cooldown()
         self.get_sts()
         self.animate()
         self.move(self.speed)
+        self.mana_regen()
         # self.visible.draw(self.display_surface)
         # self.visible_sprites.update()

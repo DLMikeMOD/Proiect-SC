@@ -60,7 +60,8 @@ weapon_list = {
 
 magic_list = {
     'heal': {'power': 10, 'cost': 10, 'icon': '../assets/splash-animation/heal/heal.png'},
-    'flame': {'power': 25, 'cost': 20, 'icon': '../assets/splash-animation/flame/fire.png'}
+    'flame': {'power': 25, 'cost': 20, 'icon': '../assets/splash-animation/flame/fire.png'},
+    'ice-spike': {'power': 20, 'cost': 15, 'icon': '../assets/splash-animation/ice_spell/IceRock.png'},
 }
 
 monster_list = {

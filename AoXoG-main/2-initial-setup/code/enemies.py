@@ -121,8 +121,9 @@ class Enemy(Entity):
             if type_of_attac == 'weapon':
                 self.health -= you.get_weapon_damaj()
             else:
-                pass
-            #     magic damaj
+            #     magic damaj to enemy
+                self.health -= you.get_spell_damaj()
+
             self.damage_time = pygame.time.get_ticks()
             self.vincible = False
 
