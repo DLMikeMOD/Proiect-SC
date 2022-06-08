@@ -259,7 +259,8 @@ class Level:
                                     [self.visible, self.destroyable_sprites],
                                     self.obstacles,
                                     self.damaj_to_you,
-                                    self.kill_splash)
+                                    self.kill_splash,
+                                    self.add_xp)
 
     def create_attack(self):
 
@@ -310,8 +311,9 @@ class Level:
 
         self.animation_you.create_genericsplash(splash_type,loc,self.visible)
 
-    def add_exp(self,ammount):
+    def add_xp(self, ammount):
         self.you.xp += ammount
+
 
     def run(self):
         # update and draw the game

@@ -8,7 +8,7 @@ from you import You
 
 
 class Enemy(Entity):
-    def __init__(self, npc_name, position, groups, obstacles, damaj_you, kill_splash):
+    def __init__(self, npc_name, position, groups, obstacles, damaj_you, kill_splash,add_xp):
         # general info
         super().__init__(groups)
         self.sprite_type = 'enemy'
@@ -27,7 +27,7 @@ class Enemy(Entity):
         self.monster_name = npc_name
         monster_info = monster_list[self.monster_name]
         self.health = monster_info['health']
-        self.exp = monster_info['exp']
+        self.xp = monster_info['xp']
         self.speed = monster_info['speed']
         self.attack_damage = monster_info['damage']
         self.resistance = monster_info['def']
@@ -41,6 +41,7 @@ class Enemy(Entity):
         self.attack_cd = 420
         self.damaj_you = damaj_you
         self.kill_splash = kill_splash
+        self.add_xp = add_xp
 
         # Invulnrable frame timer
         self.vincible = True
@@ -131,6 +132,7 @@ class Enemy(Entity):
         if self.health <= 0:
             self.kill()
             self.kill_splash(self.rect.center,self.monster_name)
+            self.add_xp(self.xp)
 
     def damaj_react(self):
         if not self.vincible:

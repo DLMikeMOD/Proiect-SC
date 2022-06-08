@@ -65,19 +65,19 @@ magic_list = {
 }
 
 monster_list = {
-    'squid': {'health': 100, 'exp': 100, 'damage': 10, 'attack_type': 'slash',
+    'squid': {'health': 100, 'xp': 100, 'damage': 10, 'attack_type': 'slash',
               'attack_sound': '../assets/audio/attack/slash.wav', 'speed': 3, 'def': 3, 'hitbox': 80,
               'aggro_range': 360, 'attack_cd': 69},
-    'raccoon': {'health': 350, 'exp': 250, 'damage': 42, 'attack_type': 'claw',
+    'raccoon': {'health': 350, 'xp': 250, 'damage': 42, 'attack_type': 'claw',
                 'attack_sound': '../assets/audio/attack/claw.wav', 'speed': 2, 'def': 3, 'hitbox': 120,
                 'aggro_range': 400, 'attack_cd': 420},
-    'spirit': {'health': 100, 'exp': 110, 'damage': 8, 'attack_type': 'thunder',
+    'spirit': {'health': 100, 'xp': 110, 'damage': 8, 'attack_type': 'thunder',
                'attack_sound': '../assets/audio/attack/fireball.wav', 'speed': 4, 'def': 3, 'hitbox': 60,
                'aggro_range': 350, 'attack_cd': 410},
-    'bamboo': {'health': 77, 'exp': 120, 'damage': 6, 'attack_type': 'leaf_attack',
+    'bamboo': {'health': 77, 'xp': 120, 'damage': 6, 'attack_type': 'leaf_attack',
                'attack_sound': '../assets/audio/attack/slash.wav', 'speed': 3, 'def': 3, 'hitbox': 50,
                'aggro_range': 300, 'attack_cd': 333},
-    'cyclops': {'health': 180, 'exp': 220, 'damage': 7, 'attack_type': 'seed_bullet',
+    'cyclops': {'health': 180, 'xp': 220, 'damage': 7, 'attack_type': 'seed_bullet',
                'attack_sound': '../assets/audio/attack/slash.wav', 'speed': 2.7, 'def': 9, 'hitbox': 45,
                'aggro_range': 333, 'attack_cd': 200}}
 # must add ghost custom type
