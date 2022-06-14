@@ -57,13 +57,11 @@ weapon_list = {
     'rapier': {'cooldown': 50, 'damage': 8, 'icon': '../assets/weapons/rapier/full.png'},
     'sai': {'cooldown': 80, 'damage': 10, 'icon': '../assets/weapons/sai/full.png'}
 }
-
 magic_list = {
     'heal': {'power': 10, 'cost': 10, 'icon': '../assets/splash-animation/heal/heal.png'},
     'flame': {'power': 25, 'cost': 20, 'icon': '../assets/splash-animation/flame/fire.png'},
     'ice-spike': {'power': 20, 'cost': 15, 'icon': '../assets/splash-animation/ice_spell/IceRock.png'},
 }
-
 monster_list = {
     'squid': {'health': 100, 'xp': 100, 'damage': 10, 'attack_type': 'slash',
               'attack_sound': '../assets/audio/attack/slash.wav', 'speed': 3, 'def': 3, 'hitbox': 80,

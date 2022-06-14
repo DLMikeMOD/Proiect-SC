@@ -173,6 +173,7 @@ from entities import Entity
 from enemies import Enemy
 from texturesplash import YouAnimation
 from spells import YouMagic
+from levelup import Upgrade
 
 
 class Level:
@@ -180,6 +181,7 @@ class Level:
 
         # get the display surface
         self.display_surface = pygame.display.get_surface()
+        self.game_paused = False
 
         # sprite group setup
         self.visible = YCameraGroup()
@@ -195,6 +197,7 @@ class Level:
 
         # UI default
         self.ui = UI()
+        self.upgrade = Upgrade(self.you)
 
         #     splash animation for player to be used in spells
         self.animation_you = YouAnimation()
@@ -314,14 +317,22 @@ class Level:
     def add_xp(self, ammount):
         self.you.xp += ammount
 
+    def trigger_upgrade_menu(self):
+        self.game_paused = not self.game_paused
 
     def run(self):
         # update and draw the game
         self.visible.custom_draw(self.you)
-        self.visible.update()
-        self.visible.enemy_update(self.you)
-        self.you_attack_logic()
         self.ui.display(self.you)
+
+
+        if self.game_paused:
+            self.upgrade.display()
+        else:
+            self.visible.update()
+            self.visible.enemy_update(self.you)
+            self.you_attack_logic()
+
 
 
 class YCameraGroup(pygame.sprite.Group):
