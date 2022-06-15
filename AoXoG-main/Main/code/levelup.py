@@ -10,7 +10,13 @@ class Upgrade:
         self.you = you
         self.attr_nr = len(you.stats)
         self.attr_name = list(you.stats.keys())
+        self.max_values = list(you.max_stats.values())
         self.font = pygame.font.Font(UI_FONT, UI_FONT_SIZE)
+
+        # slider width and height creation
+        self.width = self.display_surface.get_size()[0] // 6
+        self.height = self.display_surface.get_size()[1] * 0.8
+        self.make_slider()
 
         # selection system
         self.select_index = 0
@@ -25,10 +31,13 @@ class Upgrade:
                 self.select_index += 1
                 self.movable = False
                 self.select_time = pygame.time.get_ticks()
+                print(self.select_index)
+
             elif keys[pygame.K_LEFT] and self.select_index >= 1:
                 self.select_index -= 1
                 self.movable = False
                 self.select_time = pygame.time.get_ticks()
+                print(self.select_index)
 
             if keys[pygame.K_SPACE]:
                 self.movable = False
@@ -41,6 +50,42 @@ class Upgrade:
             if current_time - self.select_time >= 300:
                 self.movable = True
 
+    def make_slider(self):
+        self.slider_list = []
+
+        for slider, index in enumerate(range(self.attr_nr)):
+            # horizontal position
+            full_width = self.display_surface.get_size()[0]
+            increase = full_width // self.attr_nr
+            left = (slider * increase) + (increase - self.width) // 2
+
+
+            # vertical position
+            top = self.display_surface.get_size()[1] * 0.1
+
+            # create the slider
+            slider = Slider(left,top,self.width,self.height,index,self.font)
+            self.slider_list.append(slider)
+
     def display(self):
         self.input()
         self.select_cd()
+
+        for index, slider in enumerate(self.slider_list):
+
+            # get attributes
+            name = self.attr_name[index]
+            val = self.you.get_val_by_index(index)
+            max_val = self.max_values[index]
+            cost = self.you.get_cost_by_index(index)
+            slider.display(self.display_surface,self.select_index,name,val,max_val,cost)
+
+
+class Slider:
+    def __init__(self,l,t,w,h,index,font):
+        self.rect = pygame.Rect(l,t,w,h)
+        self.index = index
+        self.font = font
+
+    def display(self,surface,select_nr,name,value,max_val,cost):
+        pygame.draw.rect(surface,UI_BG_COLOR,self.rect)

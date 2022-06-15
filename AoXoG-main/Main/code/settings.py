@@ -50,6 +50,12 @@ HEALTH_COLOR = 'red'
 ENERGY_COLOR = 'blue'
 UI_BORDER_COLOR_ACTIVE = 'white'
 
+# lvl up menu
+TEXT_COLOR_SELECTED = '#111111'
+BAR_COLOR = '#EEEEEE'
+BAR_COLOR_SELECTED = '#111111'
+UPGRADE_BG_COLOR_SELECTED = '#EEEEEE'
+
 weapon_list = {
     'sword': {'cooldown': 100, 'damage': 15, 'icon': '../assets/weapons/sword/full.png'},
     'lance': {'cooldown': 400, 'damage': 30, 'icon': '../assets/weapons/lance/full.png'},

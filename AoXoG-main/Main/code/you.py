@@ -215,6 +215,12 @@ class You(Entity):
         spell_dmg = magic_list[self.magic]['power']
         return base_dmg + spell_dmg
 
+    def get_val_by_index(self,index):
+        return list(self.stats.values())[index]
+
+    def get_cost_by_index(self, index):
+        return list(self.upgrade_price.values())[index]
+
     def mana_regen(self):
         if self.energy < self.stats['mana']:
             self.energy += 0.0002 * self.stats['mana']

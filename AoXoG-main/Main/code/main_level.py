@@ -271,13 +271,13 @@ class Level:
 
     def create_magic(self, style, power, cost):
         if style == 'heal':
-            self.you_animation.heal(self.you,power,cost,[self.visible])
+            self.you_animation.heal(self.you, power, cost, [self.visible])
 
         if style == 'flame':
-            self.you_animation.flame(self.you,cost,[self.visible,self.attack_sprites])
+            self.you_animation.flame(self.you, cost, [self.visible, self.attack_sprites])
 
         if style == 'ice-spike':
-            self.you_animation.ice_spike(self.you,cost,[self.visible,self.attack_sprites])
+            self.you_animation.ice_spike(self.you, cost, [self.visible, self.attack_sprites])
 
         # print(style)
         # print(strength)
@@ -308,11 +308,11 @@ class Level:
             self.you.hp -= ammount
             self.you.vincible = False
             self.you.pain_time = pygame.time.get_ticks()
-            self.animation_you.create_genericsplash(attack_type,self.you.rect.center,[self.visible])
+            self.animation_you.create_genericsplash(attack_type, self.you.rect.center, [self.visible])
 
-    def kill_splash(self,loc,splash_type):
+    def kill_splash(self, loc, splash_type):
 
-        self.animation_you.create_genericsplash(splash_type,loc,self.visible)
+        self.animation_you.create_genericsplash(splash_type, loc, self.visible)
 
     def add_xp(self, ammount):
         self.you.xp += ammount
@@ -325,14 +325,12 @@ class Level:
         self.visible.custom_draw(self.you)
         self.ui.display(self.you)
 
-
         if self.game_paused:
             self.upgrade.display()
         else:
             self.visible.update()
             self.visible.enemy_update(self.you)
             self.you_attack_logic()
-
 
 
 class YCameraGroup(pygame.sprite.Group):
