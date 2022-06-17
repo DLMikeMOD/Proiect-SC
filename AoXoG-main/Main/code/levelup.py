@@ -87,5 +87,27 @@ class Slider:
         self.index = index
         self.font = font
 
+    def show_names(self,surface,name,cost,selected):
+        color = TEXT_COLOR_SELECTED if selected else TEXT_COLOR
+
+
+
+        # text
+        text_surface = self.font.render(name,False,color)
+        text_rect = text_surface.get_rect(midtop = self.rect.midtop + pygame.math.Vector2(0,20))
+        #cost
+        cost_surface = self.font.render(f'{int(cost)}',False,color) # possiblity for cost to become floating point number, and converitng to f string and integer solves all possible implications
+        cost_rect = cost_surface.get_rect(midbottom = self.rect.midbottom - pygame.math.Vector2(0,20))
+        #create
+        surface.blit(text_surface,text_rect)
+        surface.blit(cost_surface,cost_rect)
+
     def display(self,surface,select_nr,name,value,max_val,cost):
-        pygame.draw.rect(surface,UI_BG_COLOR,self.rect)
+        if self.index == select_nr:
+            pygame.draw.rect(surface, UPGRADE_BG_COLOR_SELECTED, self.rect)
+            pygame.draw.rect(surface, UI_BORDER_COLOR, self.rect, 4)
+        else:
+            pygame.draw.rect(surface,UI_BG_COLOR,self.rect)
+            pygame.draw.rect(surface,UI_BORDER_COLOR,self.rect,4)
+
+        self.show_names(surface,name,cost,self.index == select_nr)
