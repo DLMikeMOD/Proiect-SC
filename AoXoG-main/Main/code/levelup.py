@@ -31,13 +31,11 @@ class Upgrade:
                 self.select_index += 1
                 self.movable = False
                 self.select_time = pygame.time.get_ticks()
-                print(self.select_index)
 
             elif keys[pygame.K_LEFT] and self.select_index >= 1:
                 self.select_index -= 1
                 self.movable = False
                 self.select_time = pygame.time.get_ticks()
-                print(self.select_index)
 
             if keys[pygame.K_SPACE]:
                 self.movable = False

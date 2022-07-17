@@ -6,3 +6,6 @@ left ctrl - attack
 left shift - magic (particles tba)
 q - cycle weapon
 
+M pause and upgrade menu and sliders
+use arrows for navigating upgrade sliders and space to select upgrade wanted
+
