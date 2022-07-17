@@ -6,10 +6,15 @@ from random import randint
 class YouMagic:
     def __init__(self, you_animation):
         self.you_animation = you_animation
+        self.sounds = {
+            'heal': pygame.mixer.Sound("../assets/audio/heal.wav"),
+            'flame': pygame.mixer.Sound("../assets/audio/Fire.wav")
+            }
 
     # heal is much simpler because animation only happens on self.you (player)
     def heal(self, you, power, cost, groups):
         if you.energy >= cost:
+            self.sounds['heal'].play()
             you.hp += power
             you.energy -= cost
             if you.hp >= you.stats['health']:
@@ -23,6 +28,8 @@ class YouMagic:
     def flame(self, you, cost, groups):
         if you.energy >= cost:
             you.energy -= cost
+            self.sounds['flame'].play()
+
 
             # get direction for aiming the spell that contains projectiles
             if you.status.split('_')[0] == 'left':

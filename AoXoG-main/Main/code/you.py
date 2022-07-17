@@ -57,6 +57,10 @@ class You(Entity):
         self.pain_time = None
         self.invincible_duration = 500
 
+        # insert sounds
+        self.weapon_attack_sound = pygame.mixer.Sound('../assets/audio/sword.wav')
+        self.weapon_attack_sound.set_volume(0.4)
+
     def load_you_assets(self):
         hero_path = '../assets/player/'
         self.animations = {
@@ -109,6 +113,7 @@ class You(Entity):
                 self.attacking = True
                 self.attacking_time = pygame.time.get_ticks()
                 self.create_attack()
+                self.weapon_attack_sound.play()
 
             if keys[pygame.K_RCTRL]:
                 self.attacking = True

@@ -48,6 +48,16 @@ class Enemy(Entity):
         self.damage_time = None
         self.invincibility_lenght = 300
 
+        # audio
+        self.kill_sound = pygame.mixer.Sound('../assets/audio/death.wav')
+        self.hit_sound = pygame.mixer.Sound('../assets/audio/hit.wav')
+        self.npc_attack_sound = pygame.mixer.Sound(monster_info['attack_sound'])
+        self.hit_sound.set_volume(0.2)
+        self.kill_sound.set_volume(0.2)
+        self.npc_attack_sound.set_volume(0.3)
+
+
+
     def import_npc(self, name):
         self.animations = {'idle': [], 'move': [], 'attac': []}
         npc_path = f"../assets/enemies/{name}/"
@@ -82,6 +92,7 @@ class Enemy(Entity):
         if self.status == 'attac':
             self.attack_time = pygame.time.get_ticks()
             self.damaj_you(self.attack_damage, self.attack_type)
+            self.npc_attack_sound.play()
         elif self.status == 'move':
             self.direction = self.get_you_distance_direction(you)[1]
         else:
@@ -118,6 +129,7 @@ class Enemy(Entity):
 
     def damaj(self, you, type_of_attac):
         if self.vincible:
+            self.hit_sound.play()
             self.direction = self.get_you_distance_direction(you)[1]
             if type_of_attac == 'weapon':
                 self.health -= you.get_weapon_damaj()
@@ -133,6 +145,7 @@ class Enemy(Entity):
             self.kill()
             self.kill_splash(self.rect.center,self.monster_name)
             self.add_xp(self.xp)
+            self.kill_sound.play()
 
     def damaj_react(self):
         if not self.vincible:
