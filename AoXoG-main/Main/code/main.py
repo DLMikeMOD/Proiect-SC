@@ -26,7 +26,7 @@ class Game:
 					if event.key == pygame.K_m:
 						self.main_level.trigger_upgrade_menu()
 
-			self.screen.fill('black')
+			self.screen.fill(WATER_COLOR)
 			self.main_level.run()
 			pygame.display.update()
 			self.clock.tick(FPS)

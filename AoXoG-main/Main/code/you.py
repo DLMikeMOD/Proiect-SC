@@ -10,7 +10,7 @@ class You(Entity):
         super().__init__(groups)
         self.image = pygame.image.load('../assets/test/player.png').convert_alpha()
         self.rect = self.image.get_rect(topleft=pos)
-        self.hitbox = self.rect.inflate(0, -26)
+        self.hitbox = self.rect.inflate(-6, HITBOX_OFFSET['player'])
 
         # asset setupod for movement of you
         self.load_you_assets()
@@ -45,7 +45,7 @@ class You(Entity):
 
         # status and ui (every good story starts when you are hurt)
         self.stats = {'health': 142, 'mana': 69, 'attack': 10, 'magic': 9, 'speed': 6}
-        self.max_stats = {'health': 350, 'mana': 250, 'attack': 25, 'magic': 20, 'speed': 12}
+        self.max_stats = {'health': 999, 'mana': 999, 'attack': 999, 'magic': 999, 'speed': 30}
         self.upgrade_price = {'health': 100, 'mana': 100, 'attack': 100, 'magic': 100, 'speed': 100}
         self.hp = self.stats['health'] * 0.42
         self.energy = self.stats['mana'] * 0.69 #nice
@@ -232,7 +232,7 @@ class You(Entity):
         self.cooldown()
         self.get_sts()
         self.animate()
-        self.move(self.speed)
+        self.move(self.stats['speed'])
         self.mana_regen()
         # self.visible.draw(self.display_surface)
         # self.visible_sprites.update()

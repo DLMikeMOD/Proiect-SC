@@ -3,6 +3,11 @@ WIDTH = 1440
 HEIGTH = 860
 FPS = 60
 TILESIZE = 64
+HITBOX_OFFSET = {
+    'player': -26,
+    'large_objects': -40,
+    'grass': -10,
+    'invisible_wall': 0}
 
 # WORLD_MAP = [
 #     ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
@@ -82,6 +87,6 @@ monster_list = {
                'attack_sound': '../assets/audio/attack/slash.wav', 'speed': 3, 'def': 3, 'hitbox': 50,
                'aggro_range': 300, 'attack_cd': 333},
     'cyclops': {'health': 180, 'xp': 220, 'damage': 7, 'attack_type': 'seed_bullet',
-               'attack_sound': '../assets/audio/attack/slash.wav', 'speed': 2.7, 'def': 9, 'hitbox': 45,
-               'aggro_range': 333, 'attack_cd': 200}}
+                'attack_sound': '../assets/audio/attack/slash.wav', 'speed': 2.7, 'def': 9, 'hitbox': 45,
+                'aggro_range': 333, 'attack_cd': 200}}
 # must add ghost custom type

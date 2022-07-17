@@ -7,6 +7,7 @@ class Floor(pygame.sprite.Sprite):
     def __init__(self, pos, groups, sprite_type, surface=pygame.Surface((TILESIZE, TILESIZE))):
         super().__init__(groups)
         self.sprite_type = sprite_type
+        y_offest = HITBOX_OFFSET[sprite_type]
         self.image = surface
         if sprite_type == 'large_objects':
             # make offset
@@ -14,7 +15,7 @@ class Floor(pygame.sprite.Sprite):
         else:
             self.rect = self.image.get_rect(topleft=pos)
 
-        self.hitbox = self.rect.inflate(0, -10)
+        self.hitbox = self.rect.inflate(0, y_offest)
 
 
 # #old floor tile
